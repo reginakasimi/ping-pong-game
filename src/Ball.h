@@ -1,35 +1,36 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include <random>
-#include <cmath>
-
 class Ball
 {
-private:
-	sf::Vector2f initial_velocity;
-	sf::Vector2f velocity;
-	sf::CircleShape ball;
-	
-
-
 public:
 	Ball();
-	void randomSpawnSpeed();
-	void randomSapwnLocation();
-	sf::Vector2f getInitialVelocity() const;
-	sf::Vector2f getVelocity() const;
-	sf::CircleShape getShape() const;
-	void setVelocity(float,float);
-	void setVelocityX(float);
-	void setVelocityY(float);
-	void incressVelocityX();
-	void incressVelocityY();
+	void setPosition();
+	void setFillColor();
+	void setRadius();
+	void draw(sf::RenderWindow& window);
 	void move();
-	void drawBall(sf::RenderWindow&);
+	void reset();
+	sf::CircleShape* getShape();
+	void changeDirection();
+	float getSpeedX();
+	void releaseMe();
+	void scores();
+	bool isGameOver = false;
 
 
-
+private:
+	sf::CircleShape ball;
 	
-
+	float speedY;
+	float speedX;
+	
+	int player1Score;
+	int player2Score;
+	sf::Font font;
+	sf::Text text1;
+	sf::Text text2;
+	sf::Text won1;
+	sf::Text won2;
+	sf::RenderWindow window;
 };
 

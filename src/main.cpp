@@ -2,6 +2,11 @@
 
 int main()
 {
-	Game* game = new Game();
-	game->startGame();
+	
+	
+	Game game;
+	game.runGame();
+
+
+
 }

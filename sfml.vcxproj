@@ -20,20 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Score.cpp" />
     <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\Ball.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Score.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Ball.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="PingPong.otf" />

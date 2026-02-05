@@ -1,139 +1,85 @@
 #include "Game.h"
 
-sf::RenderWindow Game::window(sf::VideoMode(512, 512), "k", sf::Style::Close | sf::Style::Titlebar);
+
 
 Game::Game()
+	:player(true),player2(false),evnt(), window(sf::VideoMode(640, 480), "PingPong", sf::Style::Close)
 {
-	if (!font.loadFromFile("PingPong.otf"))
-	{
-		std::cout << "Font file didnt open..." << std::endl;
-	}
-
-	text.setFont(font);
-	text.setPosition(sf::Vector2f(220.0f, 30.0f));
-	text.setCharacterSize(50);
-	
+	initFonts();
+	initText();
 }
+void Game::update() {
+	if (!ball.isGameOver) {
+		ball.move();
 
+		collision.doCollision(&ball, &player);
+		collision.doCollision(&ball, &player2);
+	}
+	
+	
 
-void Game::startGame()
-{
+}
+void Game::runGame() {
+	std::cout << "Hi" << std::endl;
+
 	window.setFramerateLimit(60);
-	while (window.isOpen())
-	{
-		eventRecorder();
-		  input();
-		  update();
- 	      Render();
+	//players();
+	while (window.isOpen()) {
+
+		pollEvent();
+		playersMove();
+		update();
+
+
+		ballAndPlayers();
+
 	}
 
 }
-
-void Game::eventRecorder()
-{
-	while (window.pollEvent(evnt))
-	{
-		switch (evnt.type)
+void Game::pollEvent() {
+	while (window.pollEvent(evnt)) {
+		if (evnt.type == sf::Event::Closed)
 		{
-		case sf::Event::Closed:
 			window.close();
-
-		default:
-			break;
 		}
-
+		if (ball.isGameOver && evnt.type == sf::Event::KeyPressed) {
+			if (evnt.key.code == sf::Keyboard::Enter) {
+				ball.scores();
+				ball.reset();
+			}
+		}
 	}
 }
-
-void Game::input()
-{
-	player1.move();
+void Game::players() {
+	Player player(true);
+	Player player2(false);
+}
+void Game::playersMove() {
+	player.move();
 	player2.move();
-
-
 }
-
-void Game::update()
-{
-	ball.move();
-	collision.DoCollisionsLeft(ball, player1);
-	collision.DoCollisionsRight(ball, player2);
-	collision.DoCollisionsWalls(ball, walls);
-	collision.DoCollisionGoals(ball, walls, player1,player2);
-    
-	player1.checkWinner();
-	player2.checkWinner();
-
+void Game::ballAndPlayers() {
+	window.clear(sf::Color::Black);
+	if (ball.isGameOver) {
+		ball.draw(window);
+	}
+	else {
+		
+		player.draw(window);
+		player2.draw(window);
+		ball.draw(window);
+	}
 	
-
+	
+	window.display();
 }
-
-void Game::Render()
-{
-	if ( winScreen == RenderWinScreen())
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-		{
-			rest();
-
-		}
-	}
-	else
-	{
-		window.clear();
-		player1.drawPlayer(window);
-		player2.drawPlayer(window);
-		ball.drawBall(window);
-		score.draw(window, player1,player2);
-		window.display();
-		winScreen = true;
-	}
-
-}
-
-bool Game::RenderWinScreen()
-{
-	std::string player1Win = " Player1 Has Won ";
-	std::string player2Win = " Player2 Has Won ";
-	if (player1.getPlayerOneState())
-	{
-		text.setPosition(sf::Vector2f(100.0f, 256.0f));
-		text.setString(player1Win);
-		window.clear();
-		window.draw(text);
-		window.display();
-		return true;
-
-	}
-	else if (player2.getPlayerTwoState())
-	{
-
-		text.setPosition(sf::Vector2f(100.0f, 256.0f));
-
-		text.setString(player2Win);
-		window.clear();
-		window.draw(text);
-		window.display();
-		return true;
-	}
-	else
-	{
-		return false;
+void Game::initFonts() {
+	if (!font.loadFromFile("PingPong.otf")) {
+		std::cout << "Error. Failed to load font!" << "\n";
 	}
 }
-
-
-void  Game::rest()
-{
-	player1.restScore();
-	player2.restScore();
-
-	player1.restStates();
-	player2.restStates();
-
-	player1.restPosition();
-	player2.restPosition();
-	ball.randomSapwnLocation();
-	ball.randomSpawnSpeed();
+void Game::initText() {
+	text.setFont(font);
+	text.setCharacterSize(16);
+	text.setFillColor(sf::Color::White);
 }
-

@@ -1,136 +1,132 @@
 #include "Ball.h"
+#include "Collision.h"
+#include "Player.h"
+#include "SFML/Graphics.hpp"
 
-Ball::Ball()
-{
-	initial_velocity.x = -1.0f;
-	initial_velocity.y = 0.5;
-	randomSpawnSpeed();
-	ball.setRadius(7.5f);
-	ball.setPointCount(36);
-	randomSapwnLocation();
+Ball::Ball() {
+	reset();
+	move();
+	
+	
+	player1Score = 0;
+	player2Score = 0;
+	font.loadFromFile("PingPong.otf");
+	text1.setFont(font);
+	text1.setCharacterSize(40);
+	text1.setFillColor(sf::Color::White);
+	text1.setPosition(300.f, 20.f);
+	text2.setFont(font);
+	text2.setCharacterSize(40);
+	text2.setFillColor(sf::Color::White);
+	text2.setPosition(350.f, 20.f);
+
+	won1.setFont(font);
+	won1.setCharacterSize(40);
+	won1.setFillColor(sf::Color::White);
+	
+	won2.setFont(font);
+	won2.setCharacterSize(40);
+	won2.setFillColor(sf::Color::White);
+	
+	
+	
+}
+void Ball::draw(sf::RenderWindow& window) {
+	if (isGameOver) {
+		window.clear(sf::Color::Black);
+			if (player1Score == 5) {
+				window.draw(won1);
+			}
+			if (player2Score == 5) {
+				window.draw(won2);
+			}
+		
+	}
+	else {
+		window.draw(ball);
+		window.draw(text1);
+		window.draw(text2);
+	}
+	
+	
 	
 }
 
-
-void Ball::move()
-{
-
-	ball.move(velocity);
-}
-
-
-
-void Ball::drawBall(sf::RenderWindow& window)
-{
-
-	window.draw(ball);
-}
-
-sf::CircleShape Ball::getShape() const
-{
-	return ball;
-}
-
-
-sf::Vector2f Ball::getVelocity() const
-{
-	return velocity;
-}
-
-sf::Vector2f Ball::getInitialVelocity() const
-{
-	return initial_velocity;
-}
-
-
-void Ball ::incressVelocityX()
-{
-	if (velocity.x > 0)
+void Ball::move() {
+	text1.setString(std::to_string(player1Score));
 	
-		if (velocity.x + 1 < 10)
-           velocity.x++;
+	text2.setString(std::to_string(player2Score));
+
+	if (ball.getPosition().y > 440 || ball.getPosition().y < 0) {
+		speedY *= -1;
+
+
+	}
+
+	
+	if (ball.getPosition().x > 640) {
+		reset();
+		++player1Score;
+
+		
+	}
+	if (ball.getPosition().x < 0) {
+		reset();
+		++player2Score;
+	}
+	if (player1Score == 5) {
+		
+		isGameOver = true;
+		won1.setString("Player 1 won");
+		
+		
+	}
+	else if (player2Score == 5) {
+
+		
+		isGameOver = true;
+		won2.setString("Player 2 won");
+		
+	
+	}
+	
+	
+
+		
+	ball.move(speedX, speedY);
+
+}
+
+sf::CircleShape* Ball::getShape()
+{
+	return &ball;
+}
+void Ball::changeDirection() {
+	speedX *= -1;
+}
+void Ball::reset() {
+	ball.setRadius(20);
+	ball.setFillColor(sf::Color::Red);
+	ball.setPosition(300, 220);
+	speedY = 5;
+	speedX = 5;
+
+}
+float Ball::getSpeedX() {
+	return speedX;
+}
+
+
+void Ball::releaseMe()
+{
+	if (speedX > 0)
+		ball.move(-20.f, 0);
 	else
-	
-	  if (velocity.x - 1 > 10)
-	    	velocity.x--;
-}
-
-void Ball::incressVelocityY()
-{
-	if (velocity.y> 0)
-
-		if(velocity.y  < 10)
-		     velocity.y += 1.0f;
-	else
-       if(velocity.y  > -10)
-		velocity.y -= 1.0f;
-}
-
-
-void Ball::setVelocity(float x, float y)
-{
-	velocity.x = x;
-	velocity.y = y;
-}
-
-void Ball::setVelocityX(float new_velocity)
-{
-	this->velocity.x = new_velocity;
-}
-
-void Ball::setVelocityY(float new_velocity)
-{
-	this->velocity.y = new_velocity;
-}
-
-void Ball::randomSpawnSpeed()
-{
-
-	std::random_device rdX;
-	std::mt19937 genX(rdX());
-	std::random_device rdY;
-	std::mt19937 genY(rdY());
-	std::uniform_real_distribution<> disY(-1, 1);
-	float randomX = 0;
-	float randomY = disY(genY);
-	   std::uniform_real_distribution<> disX(-1.9f, 1.9f);
-	     randomX = disX(genX);
-		 if ( randomX > 0.0f)
-		 {
-			 velocity.x = 5.0f;
-		 }
-		 else if (randomX < 0)
-		 {
-			 velocity.x = -5.0f;
-		 }
-
-		 if (randomY > 0.0f)
-		 {
-			 velocity.y = 2.5f;
-		 }
-		 else if (randomY < 0.0f)
-		 {
-			 velocity.y = -2.5f;
-		 }
-
-	
-
-
+		ball.move(20.f, 0);
 
 }
-
-
-void Ball::randomSapwnLocation()
-{
-	std::random_device rdX;
-	std::mt19937 genX(rdX());
-	std::random_device rdY;
-	std::mt19937 genY(rdY());
-	std::uniform_real_distribution<> disX(245.0f, 260.0f);
-	std::uniform_real_distribution<> disY(10.0f, 450.0f);
-	float randomX = disX(genX);
-	float randomY = disY(genY);
-
-
-	ball.setPosition(randomX, randomY);
+void Ball::scores() {
+	player1Score = 0;
+	player2Score = 0;
+	isGameOver = false;
 }
