@@ -1,2 +1,14 @@
-﻿  Game.cpp
-  sfml.vcxproj -> C:\Users\ibrahim.DESKTOP-HJDRS5R.000\Documents\regina\sfmlw\bin\Win32\Debug\sfml.exe
+﻿  Snake.cpp
+C:\Users\user\Desktop\Snake\src\Snake.cpp(15,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(20,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(21,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(22,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(22,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(27,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(57,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(58,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(59,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(59,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Desktop\Snake\src\Snake.cpp(74,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\user\Desktop\Snake\src\Snake.cpp(107,21): warning C4018: '<': signed/unsigned mismatch
+  sfml.vcxproj -> C:\Users\user\Desktop\Snake\bin\Win32\Debug\sfml.exe

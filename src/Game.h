@@ -1,7 +1,5 @@
 #pragma once
-#include "Collision.h"
-#include "Ball.h"
-#include "Player.h"
+#include "Snake.h"
 #include "SFML/Graphics.hpp"
 #include <iostream>
 
@@ -18,14 +16,11 @@ public:
 	void initFonts();
 	void initText();
 	void playersMove();
-	;
+	void display();
 private:
-	Ball ball;
-	Player player;
-	Player player2;
-	sf::Font font;
-	sf::Text text;
-	Collision collision;
+	
+	
+	Snake snake;
 	sf::Event evnt;
 	sf::RenderWindow window;
 };
